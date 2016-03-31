@@ -1,4 +1,4 @@
-(defproject letrec "0.1.0"
+(defproject zjhmale/letrec "0.1.0"
   :description "letrec support for Clojure"
   :url "https://github.com/zjhmale/letrec"
   :license {:name "Eclipse Public License"
