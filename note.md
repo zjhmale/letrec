@@ -1,4 +1,4 @@
-there is another definition of letrec
+* there is another definition of letrec
 
 ```clojure
 (defmacro letrec-simple [bindings & body]
@@ -10,7 +10,7 @@ there is another definition of letrec
         bsss (set bssl)
         bexs (map second bprs)
         arrm (zipmap bssl (range bcnt))
-        btes (map #(walk/prewalk (fn [f]
+        btes (map #(clojure.walk/prewalk (fn [f]
                                    (if (bsss f)
                                      `(aget ~arrs ~(arrm f))
                                      f))
@@ -27,7 +27,7 @@ there is another definition of letrec
          ~@body))))
 ```
 
-use destructure function to handle conditions below
+* use destructure function to handle conditions below
 
 ```clojure
 (letrec [[ev? od?]
@@ -43,7 +43,7 @@ use destructure function to handle conditions below
          (take 10 (cons f fibs)))
 ```
 
-symbol macro defines a form that replaces a symbol during macro expansion. so use `symbol-macrolet` to handle the symbols inside the recursive definitions
+* symbol macro defines a form that replaces a symbol during macro expansion. so use `symbol-macrolet` to handle the symbols inside the recursive definitions
 
 ```clojure
 (require [clojure.tools.macro :refer [mexpand-all]])
