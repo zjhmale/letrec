@@ -27,6 +27,15 @@
          ~@body))))
 ```
 
+* cause can not use auto gensym in nested syntax-quotes so use explicit `gensym` here
+
+```clojure
+(let [x (gensym "x__")]
+  `(let [~x 1]
+     ~@(repeat 3
+               `(println ~x))))
+```
+
 * use destructure function to handle conditions below
 
 ```clojure
