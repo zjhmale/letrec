@@ -51,50 +51,50 @@
 (mexpand-all '(letrec [y x
                        x 1]
                 y))
-;;=> (let*
-      [letrec_bindings_array__6065 (clojure.core/make-array java.lang.Object 2)]
-      (do
-       (clojure.core/aset letrec_bindings_array__6065 0 (clojure.core/aget letrec_bindings_array__6065 1))
-       (clojure.core/aset letrec_bindings_array__6065 1 1))
-      (let* [y (clojure.core/aget letrec_bindings_array__6065 0) x (clojure.core/aget letrec_bindings_array__6065 1)] y))                 
+=> (let*
+    [letrec_bindings_array__6065 (clojure.core/make-array java.lang.Object 2)]
+    (do
+     (clojure.core/aset letrec_bindings_array__6065 0 (clojure.core/aget letrec_bindings_array__6065 1))
+     (clojure.core/aset letrec_bindings_array__6065 1 1))
+    (let* [y (clojure.core/aget letrec_bindings_array__6065 0) x (clojure.core/aget letrec_bindings_array__6065 1)] y))                 
       
 ;; symbol-macrolet will ignore quote reader macro
 (mexpand-all '(letrec [y 'x
                        x 1]
                 y))
-;;=> (let*
-      [letrec_bindings_array__6025 (clojure.core/make-array java.lang.Object 2)]
-      (do (clojure.core/aset letrec_bindings_array__6025 0 (quote x)) (clojure.core/aset letrec_bindings_array__6025 1 1))
-      (let* [y (clojure.core/aget letrec_bindings_array__6025 0) x (clojure.core/aget letrec_bindings_array__6025 1)] y))
+=> (let*
+    [letrec_bindings_array__6025 (clojure.core/make-array java.lang.Object 2)]
+    (do (clojure.core/aset letrec_bindings_array__6025 0 (quote x)) (clojure.core/aset letrec_bindings_array__6025 1 1))
+    (let* [y (clojure.core/aget letrec_bindings_array__6025 0) x (clojure.core/aget letrec_bindings_array__6025 1)] y))
       
 ;; if use letrec-simple
-;;=> (let*
-      [bindings_array6941 (clojure.core/make-array java.lang.Object 2)]
-      (clojure.core/aset bindings_array6941 0 (quote (clojure.core/aget bindings_array6941 1)))
-      (clojure.core/aset bindings_array6941 1 1)
-      (let* [y (clojure.core/aget bindings_array6941 0) x (clojure.core/aget bindings_array6941 1)] y))
+=> (let*
+    [bindings_array6941 (clojure.core/make-array java.lang.Object 2)]
+    (clojure.core/aset bindings_array6941 0 (quote (clojure.core/aget bindings_array6941 1)))
+    (clojure.core/aset bindings_array6941 1 1)
+    (let* [y (clojure.core/aget bindings_array6941 0) x (clojure.core/aget bindings_array6941 1)] y))
  
 (mexpand-all '(letrec [y (delay x)
                        x 1]
                (force y)))
-;;=> (let*
-      [letrec_bindings_array__5934 (clojure.core/make-array java.lang.Object 2)]
-      (do
-       (clojure.core/aset
-        letrec_bindings_array__5934
-        0
-        (new clojure.lang.Delay (fn* ([] (clojure.core/aget letrec_bindings_array__5934 1)))))
-       (clojure.core/aset letrec_bindings_array__5934 1 1))
-      (let*
-       [y (clojure.core/aget letrec_bindings_array__5934 0) x (clojure.core/aget letrec_bindings_array__5934 1)]
-       (force y)))
+=> (let*
+    [letrec_bindings_array__5934 (clojure.core/make-array java.lang.Object 2)]
+    (do
+     (clojure.core/aset
+      letrec_bindings_array__5934
+      0
+      (new clojure.lang.Delay (fn* ([] (clojure.core/aget letrec_bindings_array__5934 1)))))
+     (clojure.core/aset letrec_bindings_array__5934 1 1))
+    (let*
+     [y (clojure.core/aget letrec_bindings_array__5934 0) x (clojure.core/aget letrec_bindings_array__5934 1)]
+     (force y)))
        
 ;; if use letrec-simple
-;;=> (let*
-      [letrec_bindings_array__5963 (clojure.core/make-array java.lang.Object 2)]
-      (clojure.core/aset letrec_bindings_array__5963 0 (new clojure.lang.Delay (fn* ([] x))))
-      (clojure.core/aset letrec_bindings_array__5963 1 1)
-      (let*
-       [y (clojure.core/aget letrec_bindings_array__5963 0) x (clojure.core/aget letrec_bindings_array__5963 1)]
-       (force y)))
+=> (let*
+    [letrec_bindings_array__5963 (clojure.core/make-array java.lang.Object 2)]
+    (clojure.core/aset letrec_bindings_array__5963 0 (new clojure.lang.Delay (fn* ([] x))))
+    (clojure.core/aset letrec_bindings_array__5963 1 1)
+    (let*
+     [y (clojure.core/aget letrec_bindings_array__5963 0) x (clojure.core/aget letrec_bindings_array__5963 1)]
+     (force y)))
 ```
