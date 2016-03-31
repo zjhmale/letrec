@@ -47,3 +47,30 @@
                                                         body))))]
     (expand-clauses (cadr expr) (caddr expr))))
 
+(defn letrec-bindings
+  [expr]
+  (cadr expr))
+
+(defn letrec-body
+  [expr]
+  (cddr expr))
+
+(defn binding-var
+  [binding]
+  (car binding))
+
+(defn binding-val
+  [binding]
+  (cadr binding))
+
+(defn letrec->let
+  [expr]
+  (concat (concat (list 'let (map (fn [binding]
+                                    (list (binding-var binding) '*unassigned*))
+                                  (letrec-bindings expr)))
+                  (map (fn [binding]
+                           (list 'set!
+                                 (binding-var binding)
+                                 (binding-val binding)))
+                       (letrec-bindings expr))
+                  (letrec-body expr))))
