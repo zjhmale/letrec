@@ -1,5 +1,5 @@
 (ns letrec.suger
-  (require [letrec.sweet :refer :all]))
+  (require [letrec.sweet :as sweet]))
 
 (def car first)
 (def cdr rest)
@@ -39,7 +39,7 @@
 
 (defn let*->nested-lets
   [expr]
-  (letrec [expand-clauses (fn [bindings body]
+  (sweet/letrec [expand-clauses (fn [bindings body]
                             (if (or (nil? bindings) (empty? bindings))
                               body
                               (make-let (list (car bindings))
@@ -69,8 +69,39 @@
                                     (list (binding-var binding) '*unassigned*))
                                   (letrec-bindings expr)))
                   (map (fn [binding]
-                           (list 'set!
-                                 (binding-var binding)
-                                 (binding-val binding)))
+                         (list 'set!
+                               (binding-var binding)
+                               (binding-val binding)))
                        (letrec-bindings expr))
                   (letrec-body expr))))
+
+(defn Y* [& fl]
+  (map (fn [x] (x))
+       ((fn [x] (x x))
+         (fn [p]
+           (map
+             (fn [f]
+               (fn []
+                 (apply f
+                        (map
+                          (fn [ff]
+                            (fn [& y]
+                              (apply (ff) y)))
+                          (p p)))))
+             fl)))))
+
+(defmacro letrec [heads & bodies]
+  (let [vars (map first heads)
+        defs (map rest heads)
+        lam  (fn [x] `(fn [~@vars] ~@x))
+        fixp (gensym)]
+    `(let [~fixp (Y* ~@(map lam defs))]
+       (apply ~(lam bodies) ~fixp))))
+
+(defn Y [f]
+  ((fn [x]
+     (f (fn [y]
+          ((x x) y))))
+    (fn [x]
+      (f (fn [y]
+           ((x x) y))))))

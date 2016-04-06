@@ -33,7 +33,17 @@
                                                        (is-even? (sub1 n))))])
                                (is-odd? 11)))
          '(let ((is-even? *unassigned*)
-                (is-odd? *unassigned*))
+                 (is-odd? *unassigned*))
             (set! is-even? (lambda (n) (or (zero? n) (is-odd? (sub1 n)))))
             (set! is-odd? (lambda (n) (and (not (zero? n)) (is-even? (sub1 n)))))
-            (is-odd? 11)))))
+            (is-odd? 11))))
+  (testing "fix point combinator"
+    (let [evens (fn [k] (letrec
+                          ((even (fn [x] (if (= x 0)
+                                           true
+                                           (odd (- x 1)))))
+                            (odd (fn [x] (if (= x 0)
+                                           false
+                                           (even (- x 1))))))
+                          (filter even (range k))))]
+      (is= (evens 10) '(0 2 4 6 8)))))
