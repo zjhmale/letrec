@@ -38,6 +38,12 @@
             (set! is-odd? (lambda (n) (and (not (zero? n)) (is-even? (sub1 n)))))
             (is-odd? 11))))
   (testing "fix point combinator"
+    (is= ((Y (fn [f]
+               (fn [s]
+                 (if (empty? s)
+                   0
+                   (+ (first s) (f (rest s))))))) [1 2 3])
+         6)
     (let [evens (fn [k] (letrec
                           ((even (fn [x] (if (= x 0)
                                            true
