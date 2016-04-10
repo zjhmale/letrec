@@ -6,6 +6,10 @@
   (is= (letrec [fibs (cons 0 (cons 1 (lazy-seq (map + fibs (rest fibs)))))]
          (take 10 fibs))
        '(0 1 1 2 3 5 8 13 21 34))
+  ;; http://www.crmarsh.com/streams
+  (is= (letrec [powers-of-two (cons 1 (lazy-seq (map #(* % 2) powers-of-two)))]
+         (take 6 powers-of-two))
+       '(1 2 4 8 16 32))
   (is= (letrec [x 1
                 y 'x]
          y)
